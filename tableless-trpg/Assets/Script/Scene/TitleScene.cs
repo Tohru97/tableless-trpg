@@ -1,16 +1,34 @@
 using UnityEngine;
 
-public class TitleScene : MonoBehaviour
+public class TitleScene : MonoBehaviourExtension
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void Hide()
     {
-
+        throw new System.NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Init()
     {
-        
+        throw new System.NotImplementedException();
+    }
+
+    public override void Reset()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void Show()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void Subscribe()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void Unsubscribe()
+    {
+        throw new System.NotImplementedException();
     }
 }
