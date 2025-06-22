@@ -9,6 +9,4 @@ public abstract class MonoBehaviourExtension : MonoBehaviour
     public abstract void Show();
     public abstract void Hide();
     public abstract void Reset();
-
-    public virtual void OnApplicationPause(bool paused) {}
 }

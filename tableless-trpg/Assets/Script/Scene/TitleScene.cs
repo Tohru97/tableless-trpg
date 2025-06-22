@@ -1,34 +1,12 @@
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class TitleScene : MonoBehaviourExtension
+public class TitleScene : MonoBehaviour
 {
-    public override void Hide()
+    private async UniTaskVoid Awake()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Init()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Reset()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Show()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Subscribe()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Unsubscribe()
-    {
-        throw new System.NotImplementedException();
+        await AppManager.Instance.Init();
     }
 }
