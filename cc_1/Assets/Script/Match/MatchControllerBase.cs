@@ -3,32 +3,49 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class MatchControllerBase : MonoBehaviour
+public abstract class MatchControllerBase : MonoBehaviour
 {
+    private bool _isMatchOver = false;
+    public MatchPhase _currentPhase;
+    protected List<MatchPhase> _matchPhaseList = new List<MatchPhase>();
+
     public List<CardBase> _playerDeck = new List<CardBase>();
     public List<CardBase> _opponentDeck = new List<CardBase>();
 
-    public MatchPhase _currentPhase;
-
-    private List<MatchPhase> _matchPhaseList = new List<MatchPhase>();
+    public abstract void SetMatchPhases();
 
     public void StartMatch()
     {
+        _isMatchOver = false;
 
+        SetMatchPhases();
+        StartMatchPhaseLoop().Forget();
     }
 
     private async UniTask StartMatchPhaseLoop()
     {
-        while (true)
+        while (!_isMatchOver)
         {
-            foreach(MatchPhase phase in _matchPhaseList)
+            foreach (MatchPhase phase in _matchPhaseList)
             {
                 _currentPhase = phase;
                 _currentPhase.StartPhase();
 
                 await UniTask.WaitUntil(() => _currentPhase._isPhaseActive == false);
+
+                if (_isMatchOver)
+                {
+                    EndMatch();
+
+                    break;
+                }
             }
         }
+    }
+    
+    private void OnRequestMatchEnd()
+    {
+        _isMatchOver = true;
     }
     
     public void EndMatch()
