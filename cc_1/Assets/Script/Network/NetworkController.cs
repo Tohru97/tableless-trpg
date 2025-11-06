@@ -13,4 +13,9 @@ public class NetworkController : SingletonMono<NetworkController>, IInitializabl
         Debug.Log("NetworkController Initialized");
         return UniTask.CompletedTask;
     }
+
+    public void RequestTurnEnd()
+    {
+        
+    }
 }

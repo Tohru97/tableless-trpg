@@ -4,9 +4,7 @@ using UnityEngine;
 public abstract class MatchPhase
 {
     protected MatchControllerBase _matchController;
-    public bool _isPhaseActive { get; private set; }
-
-    public event Action OnRequestMatchEnd;
+    public Action OnRequestNextPhase;
 
     public MatchPhase(MatchControllerBase matchController)
     {
@@ -15,15 +13,18 @@ public abstract class MatchPhase
 
     public void StartPhase()
     {
-        _isPhaseActive = true;
-
         ExecutePhase();
     }
 
     public abstract void ExecutePhase();
 
+    public void RequestPhaseEnd()
+    {
+        EndPhase();
+    }
+
     public void EndPhase()
     {
-        _isPhaseActive = false;
+        OnRequestNextPhase?.Invoke();
     }
 }
