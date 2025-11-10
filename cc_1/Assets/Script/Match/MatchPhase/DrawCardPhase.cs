@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DrawCardPhase : MatchPhase
+public class DrawCardPhase : MatchPhaseBase
 {
     public DrawCardPhase(MatchControllerBase matchController) : base(matchController)
     {

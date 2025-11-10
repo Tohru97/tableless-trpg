@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SetCardOrderPhase : MatchPhase
+public class SetCardOrderPhase : MatchPhaseBase
 {
     public SetCardOrderPhase(MatchControllerBase matchController) : base(matchController)
     {

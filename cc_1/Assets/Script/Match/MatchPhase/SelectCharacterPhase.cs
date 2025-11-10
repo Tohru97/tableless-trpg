@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SelectCharacterPhase : MatchPhase
+public class SelectCharacterPhase : MatchPhaseBase
 {
     public SelectCharacterPhase(MatchControllerBase matchController) : base(matchController)
     {

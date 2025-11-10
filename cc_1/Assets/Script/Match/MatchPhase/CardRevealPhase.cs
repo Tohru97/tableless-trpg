@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CardRevealPhase : MatchPhase
+public class CardRevealPhase : MatchPhaseBase
 {
     public CardRevealPhase(MatchControllerBase matchController) : base(matchController)
     {

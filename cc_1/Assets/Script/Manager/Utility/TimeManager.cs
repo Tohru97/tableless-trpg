@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using UnityEngine;
 
-public class TimeManager : Singleton<TimeManager>, IInitializable
+public class TimeManager : SingletonMono<TimeManager>, IInitializable
 {
     public class Timer
     {
@@ -12,6 +11,7 @@ public class TimeManager : Singleton<TimeManager>, IInitializable
         public float duration;
         public float currentTime;
         public Action onTimerEnd;
+        public bool isFinished; // Add a flag to indicate if the timer is finished
 
         public Timer(int id, float duration, Action onEnd)
         {
@@ -19,15 +19,24 @@ public class TimeManager : Singleton<TimeManager>, IInitializable
             this.duration = duration;
             currentTime = 0f;
             onTimerEnd = onEnd;
+            isFinished = false; // Initialize to false
         }
 
-        public void UpdateTime()
+        public bool UpdateTime()
         {
+            if (isFinished)
+                return true;
+
             currentTime += Time.deltaTime;
+
             if (currentTime >= duration)
             {
                 onTimerEnd?.Invoke();
+                isFinished = true;
+                return true;
             }
+
+            return false;
         }
     }
 
@@ -44,6 +53,9 @@ public class TimeManager : Singleton<TimeManager>, IInitializable
 
     public int SetTimer(float duration, Action onTimerEnd)
     {
+        if(_timerIndex >= int.MaxValue)
+            _timerIndex = 0;
+
         _timerIndex++;
 
         _timerTable.Add(_timerIndex, new Timer(_timerIndex, duration, onTimerEnd));
@@ -51,11 +63,29 @@ public class TimeManager : Singleton<TimeManager>, IInitializable
         return _timerIndex;
     }
 
-    public void Update()
+    public void RemoveTimer(int timerID)
     {
+        if (_timerTable.TryGetValue(timerID, out Timer timer))
+        {
+            _timerTable.Remove(timerID);
+        }
+    }
+
+    public void LateUpdate()
+    {
+        List<int> endTimerList = new List<int>();
+
         foreach(KeyValuePair<int, Timer> pair in _timerTable)
         {
-            pair.Value.UpdateTime();
+            if (pair.Value.UpdateTime())
+            {
+                endTimerList.Add(pair.Key);
+            }
         }
+
+        // foreach (int timerID in endTimerList)
+        // {
+        //     _timerTable.Remove(timerID);
+        // }
     }
 }

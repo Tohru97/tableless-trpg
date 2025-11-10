@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DetermineWinnerPhase : MatchPhase
+public class DetermineWinnerPhase : MatchPhaseBase
 {
     public DetermineWinnerPhase(MatchControllerBase matchController) : base(matchController)
     {
