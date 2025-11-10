@@ -5,8 +5,13 @@ using UnityEngine;
 
 public class NetworkController : SingletonMono<NetworkController>, IInitializable
 {
-    [SerializeField] private NetworkManager _networkManager;
-    [SerializeField] private UnityTransport _unityTransport;
+    [SerializeField]
+    private NetworkManager _networkManager;
+
+    [SerializeField]
+    private UnityTransport _unityTransport;
+
+    private bool _isHost = false;
 
     public UniTask InitializeAsync()
     {
@@ -14,8 +19,24 @@ public class NetworkController : SingletonMono<NetworkController>, IInitializabl
         return UniTask.CompletedTask;
     }
 
+    #region Host
+    public void StartHost()
+    {
+        _isHost = true;
+    }
+    #endregion
+
+    #region Client
+    public void JoinMatch()
+    {
+
+    }
+    #endregion
+
+    #region Common
     public void RequestTurnEnd()
     {
         
     }
+    #endregion
 }
