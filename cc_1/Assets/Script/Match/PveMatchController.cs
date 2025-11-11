@@ -20,9 +20,4 @@ public class PveMatchController : MatchControllerBase
 
         _currentPhase = selectCharacterPhase;
     }
-
-    public override void RequestTurnEnd()
-    {
-        _currentPhase.RequestPhaseEnd();
-    }
 }

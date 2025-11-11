@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class CardRevealPhase : MatchPhaseBase
@@ -6,8 +7,8 @@ public class CardRevealPhase : MatchPhaseBase
     {
     }
 
-    public override void ExecutePhase()
+    public override async UniTaskVoid ExecutePhase()
     {
-        throw new System.NotImplementedException();
+        RequestPhaseEnd();
     }
 }

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class SetCardOrderPhase : MatchPhaseBase
@@ -6,8 +7,8 @@ public class SetCardOrderPhase : MatchPhaseBase
     {
     }
 
-    public override void ExecutePhase()
+    public override async UniTaskVoid ExecutePhase()
     {
-        throw new System.NotImplementedException();
+        RequestPhaseEnd();
     }
 }
