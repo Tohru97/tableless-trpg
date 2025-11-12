@@ -6,18 +6,27 @@ public class PveMatchController : MatchControllerBase
 
     public override void SetMatchPhases()
     {
-        SelectCharacterPhase selectCharacterPhase = new SelectCharacterPhase(this);
-        DrawCardPhase drawCardPhase = new DrawCardPhase(this);
-        SetCardOrderPhase setCardOrderPhase = new SetCardOrderPhase(this);
-        CardRevealPhase cardRevealPhase = new CardRevealPhase(this);
-        DetermineWinnerPhase determineWinnerPhase = new DetermineWinnerPhase(this);
+        DistributeCharactersPhase distributeCharactersPhase = new DistributeCharactersPhase(this);
+        DraftPickPhase draftPickPhase1 = new DraftPickPhase(this);
+        CharacterSwapPhase characterSwapPhase = new CharacterSwapPhase(this);
+        DraftPickPhase draftPickPhase2 = new DraftPickPhase(this);
 
-        selectCharacterPhase.OnRequestNextPhase = drawCardPhase.StartPhase;
-        drawCardPhase.OnRequestNextPhase = setCardOrderPhase.StartPhase;
-        setCardOrderPhase.OnRequestNextPhase = cardRevealPhase.StartPhase;
-        cardRevealPhase.OnRequestNextPhase = determineWinnerPhase.StartPhase;
-        determineWinnerPhase.OnRequestNextPhase = drawCardPhase.StartPhase;
+        DrawPhase drawPhase = new DrawPhase(this);
+        PreRevealPhase preRevealPhase = new PreRevealPhase(this);
+        PlanningPhase planningPhase = new PlanningPhase(this);
+        ResolutionPhase resolutionPhase = new ResolutionPhase(this);        // process combat logic
+        WinnerCheckPhase winnerCheckPhase = new WinnerCheckPhase(this);
 
-        _currentPhase = selectCharacterPhase;
+        distributeCharactersPhase.OnRequestNextPhase = draftPickPhase1.StartPhase;
+        draftPickPhase1.OnRequestNextPhase = characterSwapPhase.StartPhase;
+        characterSwapPhase.OnRequestNextPhase = draftPickPhase2.StartPhase;
+        draftPickPhase2.OnRequestNextPhase = drawPhase.StartPhase;
+        drawPhase.OnRequestNextPhase = preRevealPhase.StartPhase;
+        preRevealPhase.OnRequestNextPhase = planningPhase.StartPhase;
+        planningPhase.OnRequestNextPhase = resolutionPhase.StartPhase;
+        resolutionPhase.OnRequestNextPhase = winnerCheckPhase.StartPhase;
+        winnerCheckPhase.OnRequestNextPhase = drawPhase.StartPhase;
+
+        _currentPhase = distributeCharactersPhase;
     }
 }

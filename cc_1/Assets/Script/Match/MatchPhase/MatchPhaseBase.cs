@@ -23,11 +23,18 @@ public abstract class MatchPhaseBase
 
     public void RequestPhaseEnd()
     {
+        // check is phase can end conditions
+
         EndPhase();
     }
 
     public void EndPhase()
     {
         OnRequestNextPhase?.Invoke();
+    }
+
+    public virtual void OnCharacterSelected(bool isLocalPlayer, int characterId) 
+    {
+        Debug.LogWarning($"OnCharacterSelected called in a non-supported phase: {this.GetType().Name}");
     }
 }
