@@ -20,6 +20,8 @@ public abstract class MatchControllerBase : MonoBehaviour
     public Deck _localPlayerDeck { get; private set; }
     public Deck _remotePlayerDeck { get; private set; }
 
+    private int _timerID = 0;
+
     public abstract void SetMatchPhases();
 
     public void StartMatch()
@@ -46,11 +48,32 @@ public abstract class MatchControllerBase : MonoBehaviour
         _remotePlayerTurnEnded = false;
     }
 
-    public void OnPlayerTurnEnded(bool isLocalPlayer, bool isTurnEnded)
+    public void StartTurnEndTimer(float duration)
+    {
+        _timerID = TimeManager.Instance.SetTimer(duration, OnDoneTurnEndTimer);
+    }
+
+    private void OnDoneTurnEndTimer()
+    {
+        // Set Local Player Active Block
+
+        TimeManager.Instance.RemoveTimer(_timerID);
+    }
+
+    #region Server Communication Methods
+
+    public void RequestTurnEnded(bool isTurnEnded)
+    {
+        // Request local player turn end
+    }
+
+    public void ResponseTurnEnded(bool isLocalPlayer, bool isTurnEnded)
     {
         if(isLocalPlayer)
         {
             _localPlayerTurnEnded = isTurnEnded;
+
+            // Local Turn End UI Change
         }
         else
         {
@@ -59,14 +82,32 @@ public abstract class MatchControllerBase : MonoBehaviour
 
         if (_localPlayerTurnEnded && _remotePlayerTurnEnded)
         {
+            OnDoneTurnEndTimer();
+
+            _localPlayerTurnEnded = false;
+            _remotePlayerTurnEnded = false;
+
             _currentPhase.RequestPhaseEnd();
         }
     }
+
+    #endregion
+
+    public bool IsLocalPlayerCanAct()
+    {
+        // Check Local Player Do Anything Possible
+
+        return !_localPlayerTurnEnded;
+    }
+
+    #region Match Phase Control Methods
 
     public void SelectCharacter(bool isLocalPlayer, int characterId)
     {
         _currentPhase.OnCharacterSelected(isLocalPlayer, characterId);
     }
+
+    #endregion
 
     public void EndMatch()
     {
