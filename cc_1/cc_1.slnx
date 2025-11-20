@@ -8,10 +8,10 @@
   <Project Path="ParrelSync.csproj" />
   <Project Path="Febucci.TextAnimator.Runtime.csproj" />
   <Project Path="Febucci.TextAnimator.Editor.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="VFolders.csproj" />
   <Project Path="Xarbrough.SelectionUtility.Runtime.csproj" />
   <Project Path="SingularityGroup.HotReload.Runtime.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Sirenix.OdinInspector.Modules.Unity.Addressables.csproj" />
   <Project Path="Febucci.TextAnimator.TMP.Runtime.csproj" />
   <Project Path="Assembly-CSharp-Editor-firstpass.csproj" />
