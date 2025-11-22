@@ -41,6 +41,7 @@ public class TimeManager : SingletonMono<TimeManager>, IInitializable
     }
 
     private Dictionary<int, Timer> _timerTable = new Dictionary<int, Timer>();
+    private List<int> _endTimerList = new List<int>();
     private int _timerIndex = 0;
 
     public UniTask InitializeAsync()
@@ -65,27 +66,30 @@ public class TimeManager : SingletonMono<TimeManager>, IInitializable
 
     public void RemoveTimer(int timerID)
     {
-        if (_timerTable.TryGetValue(timerID, out Timer timer))
+        if (_timerTable.ContainsKey(timerID))
         {
-            _timerTable.Remove(timerID);
+            _endTimerList.Add(timerID);
         }
     }
 
     public void LateUpdate()
     {
-        List<int> endTimerList = new List<int>();
-
         foreach(KeyValuePair<int, Timer> pair in _timerTable)
         {
-            if (pair.Value.UpdateTime())
+            if (!_endTimerList.Contains(pair.Key) && pair.Value.UpdateTime())
             {
-                endTimerList.Add(pair.Key);
+                _endTimerList.Add(pair.Key);
             }
         }
 
-        // foreach (int timerID in endTimerList)
-        // {
-        //     _timerTable.Remove(timerID);
-        // }
+        if(_endTimerList.Count > 0)
+        {
+            foreach (int timerID in _endTimerList)
+            {
+                _timerTable.Remove(timerID);
+            }
+
+            _endTimerList.Clear();   
+        }
     }
 }
