@@ -15,10 +15,10 @@ public class NetworkController : SingletonMono<NetworkController>, IInitializabl
     private UnityTransport _unityTransport;
 
     #region Host Variables
-    private bool _isHost = false;
+    public bool _isHost {get; private set;} = false;
 
-    private NetPlayer _hostPlayer;
-    private NetPlayer _remotePlayer;
+    public NetPlayer _localPlayer {get; set;}
+    public NetPlayer _remotePlayer {get; set;}
     #endregion
 
     public UniTask InitializeAsync()
@@ -26,9 +26,9 @@ public class NetworkController : SingletonMono<NetworkController>, IInitializabl
         Debug.Log("NetworkController Initialized");
 
         _unityTransport.ConnectionData.Address = "127.0.0.1";
-        _unityTransport.ConnectionData.Port = 7777;
+        _unityTransport.ConnectionData.Port = 7778;
 
-        StartHost();
+        SetNetworkManagerCallback();
 
         return UniTask.CompletedTask;
     }
@@ -60,26 +60,19 @@ public class NetworkController : SingletonMono<NetworkController>, IInitializabl
     public void StartHost()
     {
         _isHost = true;
-        _networkManager.StartServer();
         _networkManager.StartHost();
     }
+
     #endregion
 
     #region Client
     public void JoinMatch()
     {
         _unityTransport.ConnectionData.Address = "127.0.0.1";
-        _unityTransport.ConnectionData.Port = 7777;
+        _unityTransport.ConnectionData.Port = 7778;
 
         _isHost = false;
         _networkManager.StartClient();
-    }
-    #endregion
-
-    #region Common
-    public void RequestTurnEnd()
-    {
-        
     }
     #endregion
 }

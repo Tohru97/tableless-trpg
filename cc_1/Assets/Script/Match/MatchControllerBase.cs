@@ -65,6 +65,7 @@ public abstract class MatchControllerBase : MonoBehaviour
     public void RequestTurnEnded(bool isTurnEnded)
     {
         // Request local player turn end
+        NetworkController.Instance._localPlayer.RequestTurnEndedServerRpc(isTurnEnded);
     }
 
     public void ResponseTurnEnded(bool isLocalPlayer, bool isTurnEnded)

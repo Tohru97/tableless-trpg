@@ -27,6 +27,7 @@ public class AppManager : SingletonMono<AppManager>
         ObjectPoolManager.CreateInstance();
         PlayerInfoManager.CreateInstance();
         NetworkController.CreateInstance();
+        MatchManager.CreateInstance();
 
         managers.Add(SaveManager.Instance);
         managers.Add(AddressableManager.Instance);
@@ -38,6 +39,7 @@ public class AppManager : SingletonMono<AppManager>
         managers.Add(ObjectPoolManager.Instance);
         managers.Add(PlayerInfoManager.Instance);
         managers.Add(NetworkController.Instance);
+        managers.Add(MatchManager.Instance);
 
         for (int i = 0; i < managers.Count; i++)
         {

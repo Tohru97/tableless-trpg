@@ -1,11 +1,13 @@
 using Cysharp.Threading.Tasks;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LobbyScene : BaseScene
 {
     [SerializeField]
-    private Button _testButton;
+    private Button _hostButton, _joinButton, _testButton;
+    private bool isTurnEnd = true;
 
     public override eScene GetCurrentSceneType()
     {
@@ -19,9 +21,25 @@ public class LobbyScene : BaseScene
 
     public void Start()
     {
-        _testButton.onClick.AddListener(() =>
+        MatchManager.Instance.StartMatch(true);
+
+        _hostButton.onClick.AddListener(() =>
+        {
+            NetworkController.Instance.StartHost();
+        });
+
+        _joinButton.onClick.AddListener(() =>
         {
             NetworkController.Instance.JoinMatch();
+        });
+
+        _testButton.onClick.AddListener(() =>
+        {
+            NetworkController.Instance._localPlayer.TestServerRpc();
+
+            MatchManager.Instance._matchController.RequestTurnEnded(isTurnEnd);
+
+            isTurnEnd = !isTurnEnd;
         });
     }
 }
