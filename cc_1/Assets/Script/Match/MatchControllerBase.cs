@@ -14,8 +14,8 @@ public abstract class MatchControllerBase : MonoBehaviour
     private bool _localPlayerTurnEnded;
     private bool _remotePlayerTurnEnded;
 
-    public Dictionary<int, CharacterBase> _localCharacterDict { get; private set; } = new Dictionary<int, CharacterBase>();
-    public Dictionary<int, CharacterBase> _remoteCharacterDict { get; private set; } = new Dictionary<int, CharacterBase>();
+    public Dictionary<int, CharacterBase> _localCharacterDic { get; private set; } = new Dictionary<int, CharacterBase>();
+    public Dictionary<int, CharacterBase> _remoteCharacterDic { get; private set; } = new Dictionary<int, CharacterBase>();
 
     public Deck _localPlayerDeck { get; private set; }
     public Deck _remotePlayerDeck { get; private set; }
@@ -38,8 +38,8 @@ public abstract class MatchControllerBase : MonoBehaviour
         _currentPhase = null;
         _matchPhaseList.Clear();
 
-        _localCharacterDict.Clear();
-        _remoteCharacterDict.Clear();
+        _localCharacterDic.Clear();
+        _remoteCharacterDic.Clear();
 
         _localPlayerDeck = new Deck();
         _remotePlayerDeck = new Deck();

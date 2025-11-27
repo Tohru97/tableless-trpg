@@ -8,12 +8,12 @@ public static class ConstString
     public const int ExceptionIndex = -1;
 }
 
-public abstract class BaseInfo
+public abstract class BaseData
 {
-    public abstract class BaseDataInfo
+    public abstract class Key
     {
         readonly public object key;
-        public BaseDataInfo(object key)
+        public Key(object key)
         {
             this.key = key;
         }

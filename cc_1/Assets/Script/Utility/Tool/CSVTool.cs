@@ -16,29 +16,47 @@ public class CSVTool
     [MenuItem("Utilitys/CSVTool/EncryptCsvFile")]
     public static void EncryptCsvFile()
     {
-        string inputPath = Path.Combine(Directory.GetParent(Directory.GetParent(Application.dataPath).FullName).FullName, "metadata");
-        string outputPath = Application.dataPath + "/AddressableAssets/Table";
-
-        if(string.IsNullOrEmpty(inputPath) || string.IsNullOrEmpty(outputPath))
+        try
         {
-            Debug.LogError("Input or output path is null or empty");
-            return;
+            string inputPath = Path.Combine(Directory.GetParent(Directory.GetParent(Application.dataPath).FullName).FullName, "metadata");
+            string outputPath = Application.dataPath + "/AddressableAssets/Table";
+
+            if (string.IsNullOrEmpty(inputPath) || string.IsNullOrEmpty(outputPath))
+            {
+                Debug.LogError("Input or output path is null or empty");
+                return;
+            }
+
+            string[] csvFiles = Directory.GetFiles(inputPath, "*.csv", SearchOption.AllDirectories);
+
+            if (csvFiles.Length == 0)
+            {
+                Debug.LogError("No csv files found");
+                return;
+            }
+
+            EditorUtility.DisplayProgressBar("Encrypting CSV Files", "Starting encryption...", 0.0f);
+
+            for (int i = 0; i < csvFiles.Length; i++)
+            {
+                string csvFilePath = csvFiles[i];
+                string fileName = Path.GetFileNameWithoutExtension(csvFilePath);
+                string encryptedPath = Path.Combine(outputPath, fileName + ".bytes");
+
+                EditorUtility.DisplayProgressBar("Encrypting CSV Files", $"Encrypting {fileName}...", (float)i / csvFiles.Length);
+
+                EncryptCsvFile(csvFilePath, encryptedPath);
+            }
+
+            Debug.Log("CSV files encrypted successfully!");
         }
-
-        string[] csvFiles = Directory.GetFiles(inputPath, "*.csv", SearchOption.AllDirectories);
-
-        if(csvFiles.Length == 0)
+        catch (Exception e)
         {
-            Debug.LogError("No csv files found");
-            return;
+            Debug.LogError($"An error occurred during CSV encryption: {e.Message}\n{e.StackTrace}");
         }
-
-        foreach(string csvFilePath in csvFiles)
+        finally
         {
-            string fileName = Path.GetFileNameWithoutExtension(csvFilePath);
-            string encryptedPath = Path.Combine(outputPath, fileName + ".bytes");
-
-            EncryptCsvFile(csvFilePath, encryptedPath);
+            EditorUtility.ClearProgressBar();
         }
     }
 

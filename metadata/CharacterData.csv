@@ -1,0 +1,6 @@
+id,character_name,character_desc,character_base_hp,character_base_power
+int,string,string,int,int
+1001,character_name_1001,character_desc_1001,18,1
+1002,character_name_1002,character_desc_1002,11,3
+1003,character_name_1003,character_desc_1003,16,1
+1004,character_name_1004,character_desc_1004,13,1
