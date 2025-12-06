@@ -23,6 +23,14 @@ public class CharacterData : BaseData
 
     private Dictionary<int, Data> dataDic = new Dictionary<int, Data>();
 
+    public Data GetData(int key)
+    {
+        if (dataDic.TryGetValue(key, out Data data))
+            return data;
+
+        return null;
+    }
+
     public override void ClearDatas()
     {
         dataDic.Clear();

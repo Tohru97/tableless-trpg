@@ -15,6 +15,8 @@ public class DraftPickPhase : MatchPhaseBase
 
         _matchController.StartTurnEndTimer(30f);
 
+        await UniTask.Delay(500); // 임시 딜레이
+
         Debug.Log("===== DraftPickPhase End =====");
         RequestPhaseEnd();
     }

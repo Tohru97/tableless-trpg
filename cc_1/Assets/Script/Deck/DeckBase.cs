@@ -3,5 +3,5 @@ using UnityEngine;
 
 public class Deck : MonoBehaviour
 {
-    private List<CardBase> _cards = new List<CardBase>();
+    private List<Card> _cards = new List<Card>();
 }
