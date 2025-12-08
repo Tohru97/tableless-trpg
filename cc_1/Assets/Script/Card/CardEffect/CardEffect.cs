@@ -2,5 +2,5 @@ using UnityEngine;
 
 public abstract class CardEffect : ScriptableObject
 {
-    public abstract void ApplyEffect();
+    public abstract void Execute(CardExecutionContext context);
 }
